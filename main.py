@@ -22,10 +22,13 @@ def featured():
 
 @app.route("/search")
 def search():
-    query = request.args.get("query").replace(" ", "_")
-    data = manga_api.search_manga(query)
-    results = data["data"]
-    return results
+    try:
+        query = request.args.get("query").replace(" ", "_")
+        data = manga_api.search_manga(query)
+        results = data["data"]
+        return render_template("search.html", MangaList=results)
+    except (KeyError, AttributeError) as e:
+        return "Invalid query or No results found (ERROR)"
 
 if __name__ == "__main__":
     app.run(debug=True)

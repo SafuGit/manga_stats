@@ -9,18 +9,19 @@
 <body>
     <h1>Search Results</h1>
 
-    <table>
-        <tr>
-            <th>Rank</th>
-            <th>Title</th>
-        </tr>
-        {% for manga in MangaList %}
-        <tr>
-            <td>{{ manga["rank"] }}</td>
-            <td>{{ manga["title"] }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="table_div">
+        <table>
+            <tr>
+                <th>Title</th>
+            </tr>
+            {% for manga in MangaList %}
+            <tr>
+                <td>{{ manga["rank"] }}</td>
+                <td>{{ manga["title"] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 
     <div class="button_container">
         <form action="/trending">
@@ -28,6 +29,9 @@
         </form>
         <form action="/featured">
             <button type="submit">Featured Manga</button>
+        </form>
+        <form action="/">
+            <button type="submit">Home</button>
         </form>
     </div>
     <div class="search">
