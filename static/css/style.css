@@ -6,7 +6,38 @@
 
 body {
     font-family: 'Roboto', sans-serif;
-    font-size: 2rem;
-    padding: 2rem;
-    gap: 2rem;
+    font-size: 24px;
+    padding: 24px;
+    gap: 24px;
+    background-color: cornsilk;
+    text-align: center;
+}
+
+button {
+    font-size: 24px;
+    padding: 12px;
+    text-align: center;
+    background-color:burlywood;
+}
+
+input {
+    font-size: 24px;
+    padding: 12px;
+    text-align: center;
+}
+
+.button_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+table {
+    border: 12px solid;
+}
+
+.table_div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

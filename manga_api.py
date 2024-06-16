@@ -24,8 +24,5 @@ class MangaAPI:
         return response.json()
 
     def search_manga(self, query: str) -> dict:
-        params: dict = {
-            "query": query,
-        }
-        response = requests.get(f"{ENDPOINT}/search", params=params)
+        response = requests.get(f"{ENDPOINT}/search/{query}")
         return response.json()
