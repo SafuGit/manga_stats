@@ -1,5 +1,5 @@
 from manga_api import MangaAPI
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 manga_api = MangaAPI()
@@ -11,8 +11,21 @@ def main():
 @app.route("/trending")
 def trending():
     data = manga_api.get_trending()["data"][0:10]
-    top_10 = [manga["title"] for manga in data]
+    top_10 = [{"rank": index + 1, "title": manga["title"]} for index, manga in enumerate(data)]
     return render_template("trending.html", MangaList=top_10)
+
+@app.route("/featured")
+def featured():
+    data = manga_api.get_featured()["data"][0:10]
+    top_10 = [{"rank": index + 1, "title": manga["title"]} for index, manga in enumerate(data)]
+    return render_template("featured.html", MangaList=top_10)
+
+@app.route("/search")
+def search():
+    query = request.args.get("query").replace(" ", "_")
+    data = manga_api.search_manga(query)
+    results = data["data"]
+    return results
 
 if __name__ == "__main__":
     app.run(debug=True)

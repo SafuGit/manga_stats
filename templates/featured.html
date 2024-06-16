@@ -3,11 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MangaStats</title>
+    <title>Featured Manga</title>
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet"/>
 </head>
 <body>
-    <h1>MangaStats</h1>
+    <h1>Featured Manga</h1>
+    <table>
+        <tr>
+            <th>Rank</th>
+            <th>Title</th>
+        </tr>
+        {% for manga in MangaList %}
+        <tr>
+            <td>{{ manga["rank"] }}</td>
+            <td>{{ manga["title"] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
     <div class="button_container">
         <form action="/trending">
             <button type="submit">Trending Manga</button>

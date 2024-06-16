@@ -8,11 +8,25 @@
 </head>
 <body>
     <h1>Trending Manga</h1>
-
-    <p>{{ MangaList }}</p>
-    <form action="/trending">
-        <input type="button" value="Trending Manga"/>
-        <button type="submit">Trending Manga</button>
-    </form>
+    <table>
+        <tr>
+            <th>Rank</th>
+            <th>Title</th>
+        </tr>
+        {% for manga in MangaList %}
+        <tr>
+            <td>{{ manga["rank"] }}</td>
+            <td>{{ manga["title"] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <div class="button_container">
+        <form action="/trending">
+            <button type="submit">Trending Manga</button>
+        </form>
+        <form action="/">
+            <button type="submit">Home</button>
+        </form>
+    </div>
 </body>
 </html>

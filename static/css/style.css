@@ -10,3 +10,12 @@ body {
     padding: 2rem;
     gap: 2rem;
 }
+
+input, button {
+    font-size: 2rem;
+    padding: 1rem;
+}
+
+.button_container {
+    display: flex;
+}
