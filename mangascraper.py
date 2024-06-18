@@ -7,12 +7,14 @@ class Scraper():
     def __init__(self) -> None:
         pass
 
-    def get_mangas_mangadex(self, query: str):
+    def get_mangas_mangadex(self, query: str) -> dict:
         response = requests.get(f"{MANGADEX_ENDPOINT}/manga", params={"title": query,})
         return {manga["attributes"]["title"]["en"]: manga["id"] for manga in response.json()["data"]}
-    def get_chapters_mangadex(self, manga_id: str):
+
+    def get_chapters_mangadex(self, manga_id: str) -> dict:
         response = requests.get(f"{MANGADEX_ENDPOINT}/manga/{manga_id}/feed", params={"translatedLanguage[]": "en", "limit": 500})
         data = response.json()
+
         chapters = {item['attributes']["chapter"]: item["id"] for item in data["data"]}
         return chapters
 

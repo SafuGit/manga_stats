@@ -9,33 +9,37 @@ class MangaDownloader:
         pass
 
     def download_chapter_imgs(self, id: str) -> None:
-        self.count = 0
+        self.count: int = 0
+
         response = requests.get(f"{MANGADEX_ENDPOINT}/{id}")
-        data = response.json()
-        base_url = data["baseUrl"]
-        url_hash = data["chapter"]["hash"]
+        data: dict = response.json()
+        base_url: str = data["baseUrl"]
+        url_hash: str = data["chapter"]["hash"]
+
         for self.chapter in data["chapter"]["data"]:
-            download_url = f"{base_url}/data/{url_hash}/{self.chapter}"
+            download_url: str = f"{base_url}/data/{url_hash}/{self.chapter}"
+
             self.session = requests.Session()
             response = self.session.get(download_url, stream=True)
+
             self.count += 1
             os.makedirs("imgsrc", exist_ok=True)
+
             with open(f"imgsrc/{self.count}.jpg", "wb") as f:
                 for chunk in response.iter_content(chunk_size=1024):
                     if chunk:
                         f.write(chunk)
         self.download_chapter_pdf()
+
     def download_chapter_pdf(self):
         with open(f"imgsrc/{self.count}.jpg", "rb") as f:
             img_files = [open(f"imgsrc/{i}", "rb").read() for i in os.listdir("imgsrc") if i.endswith(".jpg")]
             pdf_data = img2pdf.convert(img_files)
+
             with open(f"{self.chapter}.pdf", "wb") as pdf_file:
                 pdf_file.write(pdf_data)
             for file in os.listdir("imgsrc"):
                 os.remove(f"imgsrc/{file}")
-
-manga = MangaDownloader()
-manga.download_chapter_imgs(id="5eae7e34-c932-4c6a-99a4-899cfe43c372")
 
 ### TEMPORARILY DISABLED MANGANATO DUE TO CLOUDFLARE BLOCK ###
 
