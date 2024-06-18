@@ -1,5 +1,6 @@
 from manga_api import MangaAPI
 from flask import Flask, render_template, request
+import typing
 
 app = Flask(__name__)
 manga_api = MangaAPI()
@@ -29,6 +30,11 @@ def search():
         return render_template("search.html", MangaList=results)
     except (KeyError, AttributeError) as e:
         return "Invalid query or No results found (ERROR)"
+
+@app.route("/download")
+def download():
+    ...
+    # will work on it 
 
 if __name__ == "__main__":
     app.run(debug=True)
