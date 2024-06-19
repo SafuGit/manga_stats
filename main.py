@@ -2,8 +2,6 @@ from manga_api import MangaAPI
 from mangascraper import Scraper
 from mangadownloader import MangaDownloader
 from flask import Flask, render_template, request
-import requests
-import base64
 
 app = Flask(__name__)
 manga_api = MangaAPI()
@@ -36,6 +34,7 @@ def search():
     except (KeyError, AttributeError) as e:
         return "Invalid query or No results found (ERROR)"
 
+# TODO: Add return statement with render_template 
 @app.route("/download")
 def download():
     query = request.args.get("query")

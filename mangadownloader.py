@@ -8,6 +8,7 @@ class MangaDownloader:
     def __init__(self) -> None:
         pass
 
+    # Gets urls from https://api.mangadex.org/docs/ (api reference)
     def get_download_urls(self, id: str) -> list:
         response = requests.get(f"{MANGADEX_ENDPOINT}/{id}")
         data: dict = response.json()
@@ -20,17 +21,23 @@ class MangaDownloader:
             download_url_list.append(download_url)
         return download_url_list
 
+
+### Code below only works for local apps not HTML ###
     def download_chapter_imgs(self, id: str, path: str) -> None:
         self.count: int = 0
 
+        # Get the urls from the mangadex server (returns json)
         response = requests.get(f"{MANGADEX_ENDPOINT}/{id}")
         data: dict = response.json()
+
+        # Filter the json to get the relevant info
         base_url: str = data["baseUrl"]
         url_hash: str = data["chapter"]["hash"]
 
         for self.chapter in data["chapter"]["data"]:
             download_url: str = f"{base_url}/data/{url_hash}/{self.chapter}"
 
+            # Starts a download session and downloads the image
             self.session = requests.Session()
             response = self.session.get(download_url, stream=True)
 
@@ -43,15 +50,20 @@ class MangaDownloader:
                         f.write(chunk)
         self.download_chapter_pdf(path)
 
+# Converts file to PDF
     def download_chapter_pdf(self, path: str) -> None:
+        # Opening the image file
         with open(f"{path}/imgsrc/{self.count}.jpg", "rb") as f:
             img_files = [open(f"{path}/imgsrc/{i}", "rb").read() for i in os.listdir("imgsrc") if i.endswith(".jpg")]
             pdf_data = img2pdf.convert(img_files)
 
+        # Creating a pdf file and removing the imgs
             with open(f"{path}/{self.chapter}.pdf", "wb") as pdf_file:
                 pdf_file.write(pdf_data)
             for file in os.listdir(f"{path}/imgsrc"):
                 os.remove(f"{path}/imgsrc/{file}")
+### Code above only works for local apps not HTML ###
+
 
 ### TEMPORARILY DISABLED MANGANATO DUE TO CLOUDFLARE BLOCK ###
 
