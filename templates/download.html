@@ -1,4 +1,3 @@
-<!-- templates/download.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,10 +7,14 @@
 </head>
 <body>
     <h1>Downloaded Images</h1>
-    <div class="image-gallery">
-        {% for image_data in images %}
-            <img src="{{ image_data }}" alt="Image">
-        {% endfor %}
+    <div class="image_container">
+        <table>
+            {% for image in images %}
+                <tr>
+                    <td><img src="{{ url_for('static', filename=image) }}" alt="Image"></td>
+                </tr>
+            {% endfor %}
+        </table>
     </div>
 </body>
 </html>

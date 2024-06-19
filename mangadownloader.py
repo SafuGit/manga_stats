@@ -23,7 +23,7 @@ class MangaDownloader:
 
 
 ### Code below only works for local apps not HTML ###
-    def download_chapter_imgs(self, id: str, path: str) -> None:
+    def download_chapter_imgs(self, id: str) -> None:
         self.count: int = 0
 
         # Get the urls from the mangadex server (returns json)
@@ -42,13 +42,11 @@ class MangaDownloader:
             response = self.session.get(download_url, stream=True)
 
             self.count += 1
-            os.makedirs(f"{path}/imgsrc", exist_ok=True)
-
-            with open(f"{path}/imgsrc/{self.count}.jpg", "wb") as f:
+            with open(f"static/images/{self.count}.jpg", "wb") as f:
                 for chunk in response.iter_content(chunk_size=1024):
                     if chunk:
                         f.write(chunk)
-        self.download_chapter_pdf(path)
+        # self.download_chapter_pdf(path)
 
 # Converts file to PDF
     def download_chapter_pdf(self, path: str) -> None:

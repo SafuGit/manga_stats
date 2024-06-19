@@ -2,6 +2,8 @@ from manga_api import MangaAPI
 from mangascraper import Scraper
 from mangadownloader import MangaDownloader
 from flask import Flask, render_template, request
+import re
+import os
 
 app = Flask(__name__)
 manga_api = MangaAPI()
@@ -27,20 +29,31 @@ def featured():
 @app.route("/search")
 def search():
     try:
-        query = request.args.get("query").replace(" ", "_")
-        data = manga_api.search_manga(query)
-        results = data["data"]
-        return render_template("search.html", MangaList=results)
-    except (KeyError, AttributeError) as e:
+        query = request.args.get("query")
+        manga_data = manga_scraper.get_mangas_mangadex(query)
+        return render_template("select_manga.html", mangas=manga_data)
+    except:
         return "Invalid query or No results found (ERROR)"
 
-# TODO: Add return statement with render_template 
+def num_sort(test_string):
+    return list(map(int, re.findall(r'\d+', test_string)))[0]
+
+@app.route("/select_chapter")
+def select_chapter():
+    manga_id = request.args.get("id")
+    chapter_data = manga_scraper.get_chapters_mangadex(manga_id)
+    return render_template("select_chapter.html", chapters=chapter_data)
+
 @app.route("/download")
 def download():
-    query = request.args.get("query")
-    manga_data = manga_scraper.get_mangas_mangadex(query)
-    chapter_data = manga_scraper.get_chapters_mangadex(manga_data["Jujutsu Kaisen"])
-    urls = manga_downloader.get_download_urls(chapter_data["1"])
-
+    chapter = request.args.get("chapter")
+    return chapter
+    # manga_downloader.download_chapter_imgs(chapter_data["1"])
+    # img_list = os.listdir("static/images")
+    # images = []
+    # for img in img_list:
+    #     images.append(os.path.join(f"images/{img}"))
+    #     images.sort(key=num_sort)
+    # return render_template("download.html", images=images)
 if __name__ == "__main__":
     app.run(debug=True)
