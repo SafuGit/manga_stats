@@ -41,3 +41,18 @@ table {
     justify-content: center;
     align-items: center;
 }
+
+.image_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Optional: align items in the center */
+}
+
+img {
+    max-width: 900px; /* Ensure images fit the container width */
+    height: auto; /* Maintain aspect ratio */
+}
+.mangas {
+    display: flex;
+    flex-direction: column;
+}
