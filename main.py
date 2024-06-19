@@ -1,9 +1,14 @@
 from manga_api import MangaAPI
+from mangascraper import Scraper
+from mangadownloader import MangaDownloader
 from flask import Flask, render_template, request
-import typing
+import requests
+import base64
 
 app = Flask(__name__)
 manga_api = MangaAPI()
+manga_scraper = Scraper()
+manga_downloader = MangaDownloader()
 
 @app.route("/")
 def main():
@@ -31,10 +36,18 @@ def search():
     except (KeyError, AttributeError) as e:
         return "Invalid query or No results found (ERROR)"
 
+import base64
+from flask import Response
+
+import base64
+from flask import Response
+
 @app.route("/download")
 def download():
-    ...
-    # will work on it 
+    query = request.args.get("query")
+    manga_data = manga_scraper.get_mangas_mangadex(query)
+    chapter_data = manga_scraper.get_chapters_mangadex(manga_data["Jujutsu Kaisen"])
+    urls = manga_downloader.get_download_urls(chapter_data["1"])
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host="localhost", port=5000)
