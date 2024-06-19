@@ -8,7 +8,19 @@ class MangaDownloader:
     def __init__(self) -> None:
         pass
 
-    def download_chapter_imgs(self, id: str) -> None:
+    def get_download_urls(self, id: str) -> list:
+        response = requests.get(f"{MANGADEX_ENDPOINT}/{id}")
+        data: dict = response.json()
+        base_url: str = data["baseUrl"]
+        url_hash: str = data["chapter"]["hash"]
+        download_url_list = []
+
+        for self.chapter in data["chapter"]["data"]:
+            download_url: str = f"{base_url}/data/{url_hash}/{self.chapter}"
+            download_url_list.append(download_url)
+        return download_url_list
+
+    def download_chapter_imgs(self, id: str, path: str) -> None:
         self.count: int = 0
 
         response = requests.get(f"{MANGADEX_ENDPOINT}/{id}")
@@ -23,23 +35,23 @@ class MangaDownloader:
             response = self.session.get(download_url, stream=True)
 
             self.count += 1
-            os.makedirs("imgsrc", exist_ok=True)
+            os.makedirs(f"{path}/imgsrc", exist_ok=True)
 
-            with open(f"imgsrc/{self.count}.jpg", "wb") as f:
+            with open(f"{path}/imgsrc/{self.count}.jpg", "wb") as f:
                 for chunk in response.iter_content(chunk_size=1024):
                     if chunk:
                         f.write(chunk)
-        self.download_chapter_pdf()
+        self.download_chapter_pdf(path)
 
-    def download_chapter_pdf(self):
-        with open(f"imgsrc/{self.count}.jpg", "rb") as f:
-            img_files = [open(f"imgsrc/{i}", "rb").read() for i in os.listdir("imgsrc") if i.endswith(".jpg")]
+    def download_chapter_pdf(self, path: str) -> None:
+        with open(f"{path}/imgsrc/{self.count}.jpg", "rb") as f:
+            img_files = [open(f"{path}/imgsrc/{i}", "rb").read() for i in os.listdir("imgsrc") if i.endswith(".jpg")]
             pdf_data = img2pdf.convert(img_files)
 
-            with open(f"{self.chapter}.pdf", "wb") as pdf_file:
+            with open(f"{path}/{self.chapter}.pdf", "wb") as pdf_file:
                 pdf_file.write(pdf_data)
-            for file in os.listdir("imgsrc"):
-                os.remove(f"imgsrc/{file}")
+            for file in os.listdir(f"{path}/imgsrc"):
+                os.remove(f"{path}/imgsrc/{file}")
 
 ### TEMPORARILY DISABLED MANGANATO DUE TO CLOUDFLARE BLOCK ###
 
