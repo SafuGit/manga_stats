@@ -36,12 +36,6 @@ def search():
     except (KeyError, AttributeError) as e:
         return "Invalid query or No results found (ERROR)"
 
-import base64
-from flask import Response
-
-import base64
-from flask import Response
-
 @app.route("/download")
 def download():
     query = request.args.get("query")
@@ -50,4 +44,4 @@ def download():
     urls = manga_downloader.get_download_urls(chapter_data["1"])
 
 if __name__ == "__main__":
-    app.run(debug=True, host="localhost", port=5000)
+    app.run(debug=True)
