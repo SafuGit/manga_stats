@@ -7,7 +7,8 @@
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet"/>
 </head>
 <body>
-    <h1>MangaStats</h1>
+    <div class="container">
+    <h1>MangaScraped</h1>
     <div class="button_container">
         <form action="/trending">
             <button type="submit">Trending Manga</button>
@@ -15,15 +16,20 @@
         <form action="/featured">
             <button type="submit">Featured Manga</button>
         </form>
+    </div>
+    <div class="search">
+        <form action="/search">
+            <input type="text" name="query" placeholder="Search/Read Manga">
+            <button type="submit">Search</button>
+        </form>
         <form action="/">
             <button type="submit">Home</button>
         </form>
     </div>
-    <div class="search">
-        <form action="/search">
-            <input type="text" name="query" placeholder="Search Manga">
-            <button type="submit">Search</button>
-        </form>
-    </div>
+    <p>NOTE: Use Manganato source for smooth experience.</p>
+</div>
 </body>
+<footer>
+        <p style="position: fixed; bottom: 0; width:100%; text-align: center">&copy; Author: Safwan <a href="https://github.com/SafuGit/manga_scraped">Project Repo</a><br>2024 MangaScraped. All rights reserved.</p>
+</footer>
 </html>

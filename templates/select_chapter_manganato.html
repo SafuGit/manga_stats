@@ -6,10 +6,16 @@
     <title>Document</title>
 </head>
 <body>
+    <form action="/">
+        <button type="submit">Home</button>
+    </form>
     {% for chapter, chapter_url in chapters.items() %}
         <div>
             <a href="{{ chapter_url }}">{{ chapter }}</a>
         </div>
     {% endfor %}
+    <form action="/">
+        <button type="submit">Home</button>
+    </form>
 </body>
 </html>
