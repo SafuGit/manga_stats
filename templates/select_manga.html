@@ -7,11 +7,24 @@
 </head>
 <body>
     <div class="mangas">
-        {% for manga, manga_id in mangas.items() %}
-            <div>
-                <a href="/select_chapter?id={{ manga_id }}">{{ manga }}</a>
-            </div>
-        {% endfor %}
+        <table>
+            <!-- <tr>
+                <th>Mangadex Source</th>
+                <th>Manganato Source</th>
+            </tr> -->
+            {% for manga, manga_id in mangas_mangadex.items() %}
+                <tr>
+                    <td><a href="/select_chapter?id={{ manga_id }}">{{ manga }}</a></td>
+                    <td>Mangadex</td> 
+                </tr>
+            {% endfor %}
+            {% for manga, manga_id in mangas_manganato.items() %}
+                <tr>
+                    <td><a href="/select_chapter?id={{ manga_id }}">{{ manga }}</a></td>
+                    <td>Manganato</td>
+                </tr>
+            {% endfor %}
+        </table>
     </div>
 </body>
 </html>

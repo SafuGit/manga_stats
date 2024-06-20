@@ -21,9 +21,7 @@ class MangaDownloader:
             download_url_list.append(download_url)
         return download_url_list
 
-
-### Code below only works for local apps not HTML ###
-    def download_chapter_imgs(self, id: str) -> None:
+    def download_chapter_imgs(self, id: str):
         self.count: int = 0
 
         # Get the urls from the mangadex server (returns json)
@@ -46,7 +44,7 @@ class MangaDownloader:
                 for chunk in response.iter_content(chunk_size=1024):
                     if chunk:
                         f.write(chunk)
-        # self.download_chapter_pdf(path)
+    # self.download_chapter_pdf(path)
 
 # Converts file to PDF
     def download_chapter_pdf(self, path: str) -> None:
@@ -60,7 +58,6 @@ class MangaDownloader:
                 pdf_file.write(pdf_data)
             for file in os.listdir(f"{path}/imgsrc"):
                 os.remove(f"{path}/imgsrc/{file}")
-### Code above only works for local apps not HTML ###
 
 
 ### TEMPORARILY DISABLED MANGANATO DUE TO CLOUDFLARE BLOCK ###

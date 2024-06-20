@@ -30,8 +30,9 @@ def featured():
 def search():
     try:
         query = request.args.get("query")
-        manga_data = manga_scraper.get_mangas_mangadex(query)
-        return render_template("select_manga.html", mangas=manga_data)
+        manga_data_mangadex = manga_scraper.get_mangas_mangadex(query)
+        manga_data_manganato = manga_scraper.get_mangas_manganato(query)
+        return render_template("select_manga.html", mangas_mangadex=manga_data_mangadex, mangas_manganato=manga_data_manganato)
     except:
         return "Invalid query or No results found (ERROR)"
 
@@ -47,13 +48,28 @@ def select_chapter():
 @app.route("/download")
 def download():
     chapter = request.args.get("chapter")
-    return chapter
-    # manga_downloader.download_chapter_imgs(chapter_data["1"])
-    # img_list = os.listdir("static/images")
-    # images = []
-    # for img in img_list:
-    #     images.append(os.path.join(f"images/{img}"))
-    #     images.sort(key=num_sort)
-    # return render_template("download.html", images=images)
+    manga_downloader.download_chapter_imgs(chapter)
+    img_list = os.listdir("static/images")
+    images = []
+    for img in img_list:
+        images.append(os.path.join(f"images/{img}"))
+        images.sort(key=num_sort)
+    return render_template("download.html", images=images)
+
+@app.route('/delete_images', methods=['POST'])
+def delete_images():
+    if request.json and request.json.get('action') == 'delete_images':
+        for file in os.listdir("static/images"):
+            os.remove(f"static/images/{file}")
+        return "/"
+    return "Invalid request", 400
+
+@app.route('/manganato_test')
+def manganato_test():
+    query = request.args.get("query")
+    manga_data = manga_scraper.get_mangas_manganato(query)
+    chapter_data = manga_scraper.get_chapters_manganato(manga_data["One Piece"])
+    return render_template("manganato_links.html", chapters=chapter_data)
+
 if __name__ == "__main__":
     app.run(debug=True)
