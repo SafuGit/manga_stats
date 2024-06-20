@@ -20,8 +20,6 @@ class Scraper():
         chapters = {item['attributes']["chapter"]: item["id"] for item in data["data"]}
         return chapters
 
-### TEMPORARILY DISABLED MANGANATO DUE TO CLOUDFLARE BLOCK ###
-
     def get_mangas_manganato(self, query: str):
         filtered_query: str = query.replace(" ", "_") 
         self.response = requests.get(f"{ENDPOINT}/{filtered_query}")
@@ -40,8 +38,7 @@ class Scraper():
         return manga_dict
 
     def get_chapters_manganato(self, manga_id: str) -> dict:
-        chapter_endpoint = "https://chapmanganato.to"
-        response = requests.get(f"{chapter_endpoint}/{manga_id}")
+        response = requests.get(manga_id)
         soup = BeautifulSoup(response.text, "html.parser")
 
         chapter_dict_unfilterd: dict = {}

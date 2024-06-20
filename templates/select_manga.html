@@ -14,13 +14,13 @@
             </tr> -->
             {% for manga, manga_id in mangas_mangadex.items() %}
                 <tr>
-                    <td><a href="/select_chapter?id={{ manga_id }}">{{ manga }}</a></td>
+                    <td><a href="/select_chapter_mangadex?id={{ manga_id }}">{{ manga }}</a></td>
                     <td>Mangadex</td> 
                 </tr>
             {% endfor %}
             {% for manga, manga_id in mangas_manganato.items() %}
                 <tr>
-                    <td><a href="/select_chapter?id={{ manga_id }}">{{ manga }}</a></td>
+                    <td><a href="/select_chapter_manganato?id={{ manga_id }}">{{ manga }}</a></td>
                     <td>Manganato</td>
                 </tr>
             {% endfor %}

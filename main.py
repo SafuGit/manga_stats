@@ -39,11 +39,17 @@ def search():
 def num_sort(test_string):
     return list(map(int, re.findall(r'\d+', test_string)))[0]
 
-@app.route("/select_chapter")
-def select_chapter():
+@app.route("/select_chapter_mangadex")
+def select_chapter_mangadex():
     manga_id = request.args.get("id")
     chapter_data = manga_scraper.get_chapters_mangadex(manga_id)
-    return render_template("select_chapter.html", chapters=chapter_data)
+    return render_template("select_chapter_mangadex.html", chapters=chapter_data)
+
+@app.route("/select_chapter_manganato")
+def select_chapter_manganato():
+    manga_id = request.args.get("id")
+    chapter_data = manga_scraper.get_chapters_manganato(manga_id)
+    return render_template("select_chapter_manganato.html", chapters=chapter_data)
 
 @app.route("/download")
 def download():
