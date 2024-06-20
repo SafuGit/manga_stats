@@ -70,12 +70,5 @@ def delete_images():
         return "/"
     return "Invalid request", 400
 
-@app.route('/manganato_test')
-def manganato_test():
-    query = request.args.get("query")
-    manga_data = manga_scraper.get_mangas_manganato(query)
-    chapter_data = manga_scraper.get_chapters_manganato(manga_data["One Piece"])
-    return render_template("manganato_links.html", chapters=chapter_data)
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
