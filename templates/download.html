@@ -16,5 +16,17 @@
             {% endfor %}
         </table>
     </div>
+    <script>
+        window.addEventListener('beforeunload', function (e) {
+            // Send a request to the server to delete images
+            fetch('/delete_images', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ action: 'delete_images' }),
+            });
+        });
+    </script>
 </body>
 </html>

@@ -6,10 +6,16 @@
     <title>Select Chapter</title>
 </head>
 <body>
+    <form action="/">
+        <button type="submit">Home</button>
+    </form>
     {% for chapter_title, chapter_id in chapters.items() %}
         <div>
             <a href="/download?chapter={{ chapter_id }}">{{ chapter_title }}</a>
         </div>
     {% endfor %}
+    <form action="/">
+        <button type="submit">Home</button>
+    </form>
 </body>
 </html>
